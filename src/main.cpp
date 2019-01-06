@@ -11,6 +11,7 @@
 
 #include "Tileset.h"
 #include "Level.h"
+#include "Editor.h"
 
 using namespace std;
 
@@ -24,16 +25,12 @@ int main()
 	Tileset tileset{0};
 	//Loading Lvl
 	Level level{0};
+	//Editor
+	Editor editor;
 
-	sf::View view(sf::Vector2f((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGTH/2), sf::Vector2f((float)SCREEN_WIDTH, (float)SCREEN_HEIGTH));
+	sf::View view(sf::Vector2f((float)SCREEN_WIDTH/2, (float)SCREEN_HEIGTH/2), sf::Vector2f(static_cast<float>(SCREEN_WIDTH), static_cast<float>(SCREEN_HEIGTH)));
 	sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGTH, desktop.bitsPerPixel), "SFML works!"/*, sf::Style::Fullscreen*/);
-
-
-	sf::Texture t;
-	t.loadFromFile("assets/test-bg.png");
-	sf::Sprite s(t);
-	s.setPosition(0.f, 0.f);
 
     while (window.isOpen())
     {
@@ -43,21 +40,21 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
             if (event.type == sf::Event::Resized){
-            	//New size of the view
-            	float aspectRatio = float(window.getSize().x) / float(window.getSize().y);
+            }
+            if (event.type == sf::Event::KeyReleased){
+            	if (sf::Keyboard::Key::A == event.key.code){
 
-            	if (window.getSize().x < window.getSize().y)
-            		view.setSize(float(SCREEN_HEIGTH) * aspectRatio, float(SCREEN_HEIGTH) * aspectRatio);
-            	if (window.getSize().x > window.getSize().y)
-					view.setSize(float(SCREEN_WIDTH) * aspectRatio, float(SCREEN_WIDTH) * aspectRatio);
+            	}
+            	if (sf::Keyboard::Key::Z == event.key.code){
 
+				}
             }
         }
 
-        window.clear();
         window.setView(view);
+        window.clear();
         //level.displayLvl(window, tileset);
-        window.draw(s);
+        editor.display(window);
         window.display();
     }
 
